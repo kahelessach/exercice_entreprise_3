@@ -9,10 +9,10 @@ questionnaire_data = json.loads(json_data)
 
 
 class Question:
-    def __init__(self, titre, choix, bonne_reponse):
+    def __init__(self, titre, choix):
         self.titre = titre
         self.choix = choix
-        self.bonne_reponse = bonne_reponse
+        
 
     def FromData(data):
         # ....
@@ -24,9 +24,9 @@ class Question:
         print("QUESTION")
         indice_question = 0
    
-
+        score = 0
         for i in range(len(self.gestion_titre())):
-            print(self.gestion_titre()[indice_question])
+            print(f"Question {i+1} : {self.gestion_titre()[indice_question]}")
             for i in range(len(self.reponse_choix(0, indice_question))):
                 print("  ", i+1, "-", self.reponse_choix(0, indice_question)[i])
 
@@ -36,13 +36,20 @@ class Question:
             if self.reponse_choix(1, indice_question)[reponse_int -1] == True:
                 print("Bonne réponse")
                 resultat_response_correcte = True
+                score += 1
+
+
+                
             else:
                 print("Mauvaise réponse")
                 
             print()
             indice_question +=1
-            
+        print("Score final :",score ,"sur", (len(self.gestion_titre())))
+        
         return resultat_response_correcte
+        
+    
 
     def demander_reponse_numerique_utlisateur(min, max):
         reponse_str = input("Votre réponse (entre " + str(min) + " et " + str(max) + ") :")
@@ -64,7 +71,9 @@ class Question:
     
     def gestion_titre(self):
         return [ques['titre'] for ques in questionnaire_data['questions']]
-        
+    
+   
+  
     
 class Questionnaire:
     def __init__(self, questions):
@@ -72,10 +81,12 @@ class Questionnaire:
 
     def lancer(self):
         score = 0
+        #print(self.question)
         for question in self.questions:
             if question.poser():
                 score += 1
-        print("Score final :", score, "sur 10")
+                
+        #print("Score final :",score , "sur 10")
         return score
 
 
@@ -84,7 +95,7 @@ class Questionnaire:
    
 Questionnaire(
     (
-    Question([ques['titre'] for ques in questionnaire_data['questions']],[reponse[0] for reponse in questionnaire_data['questions'][0]['choix']], "Rome"), 
+    Question([ques['titre'] for ques in questionnaire_data['questions']],[reponse[0] for reponse in questionnaire_data['questions'][0]['choix']]), 
     
     )
 ).lancer()
