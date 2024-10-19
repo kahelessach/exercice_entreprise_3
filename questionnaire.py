@@ -1,11 +1,9 @@
 import json
-#from import_quizz import open_quizz_db_data
 
-filename = "cinema_starwars_debutant.json"
-file = open(filename, "r")
-json_data = file.read()      
-file.close()
-questionnaire_data = json.loads(json_data)
+
+
+
+
 
 
 class Question:
@@ -90,6 +88,20 @@ class Questionnaire:
         return score
 
 
+chargemment = True
+
+while chargemment:
+
+    try:
+        filename = "arts_museedulouvre_debutant.json"
+        file = open(filename, "r")
+        json_data = file.read()      
+        file.close()
+        questionnaire_data = json.loads(json_data)
+        chargemment = False
+        
+    except:
+        from import_quizz import open_quizz_db_data
 
 
    
